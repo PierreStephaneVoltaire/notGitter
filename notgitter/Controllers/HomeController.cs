@@ -16,7 +16,7 @@ namespace notgitter.Controllers
         const string clientId = "ebc5b3174e7840ea3164";
         private const string clientSecret = "36befd087000855e599f32cec03c1724da012164";
         readonly GitHubClient client =
-            new GitHubClient(new ProductHeaderValue("Haack-GitHub-Oauth-Demo"), new Uri("https://github.com/"));
+            new GitHubClient(new ProductHeaderValue("FinalProject"), new Uri("https://github.com/"));
 
         // This URL uses the GitHub API to get a list of the current user's
         // repositories which include public and private repositories.
@@ -36,7 +36,7 @@ namespace notgitter.Controllers
                 var repositories = await client.Repository.GetAllForCurrent();
 
                 //add repos and user to DB
-
+              
                 // for testing
                 //get the first email and add it to the DB
                 var d = client.User.Email.GetAll();
