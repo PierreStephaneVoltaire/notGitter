@@ -164,57 +164,65 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Chatroom.cs">
-      <DependentUpon>ChatroomModel.tt</DependentUpon>
+    <Compile Include="Controllers\Chatroom.cs">
+      <DependentUpon>ChatRoomModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="ChatroomModel.Context.cs">
+    <Compile Include="Controllers\ChatRoomModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ChatroomModel.Context.tt</DependentUpon>
+      <DependentUpon>ChatRoomModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="ChatroomModel.cs">
+    <Compile Include="Controllers\ChatRoomModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ChatroomModel.tt</DependentUpon>
+      <DependentUpon>ChatRoomModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="ChatroomModel.Designer.cs">
+    <Compile Include="Controllers\ChatRoomModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ChatroomModel.edmx</DependentUpon>
+      <DependentUpon>ChatRoomModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\ChatroomsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\MessagesController.cs" />
-    <Compile Include="Controllers\RepoesController.cs" />
-    <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Controllers\Message.cs">
+      <DependentUpon>ChatRoomModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\Repo.cs">
+      <DependentUpon>ChatRoomModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\User.cs">
+      <DependentUpon>ChatRoomModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Message.cs">
-      <DependentUpon>ChatroomModel.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Models\Chatroom.cs" />
+    <Compile Include="Models\Message.cs" />
+    <Compile Include="Models\Repo.cs" />
+    <Compile Include="Models\Users.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repo.cs">
-      <DependentUpon>ChatroomModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="User.cs">
-      <DependentUpon>ChatroomModel.tt</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ChatroomModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ChatroomModel.Context.cs</LastGenOutput>
-      <DependentUpon>ChatroomModel.edmx</DependentUpon>
+    <Content Include="App_Data\ChatRoomDB.mdf" />
+    <Content Include="App_Data\ChatRoomDB_log.ldf">
+      <DependentUpon>ChatRoomDB.mdf</DependentUpon>
     </Content>
-    <Content Include="ChatroomModel.edmx.sql" />
-    <Content Include="ChatroomModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ChatroomModel.cs</LastGenOutput>
-      <DependentUpon>ChatroomModel.edmx</DependentUpon>
+    <Content Include="App_Data\NotGitterDB.mdf" />
+    <Content Include="App_Data\NotGitterDB_log.ldf">
+      <DependentUpon>NotGitterDB.mdf</DependentUpon>
     </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Controllers\ChatRoomModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ChatRoomModel.edmx</DependentUpon>
+      <LastGenOutput>ChatRoomModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Controllers\ChatRoomModel.edmx.sql" />
+    <Content Include="Controllers\ChatRoomModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ChatRoomModel.edmx</DependentUpon>
+      <LastGenOutput>ChatRoomModel.cs</LastGenOutput>
+    </Content>
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -224,12 +232,12 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <EntityDeploy Include="ChatroomModel.edmx">
+    <EntityDeploy Include="Controllers\ChatRoomModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ChatroomModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>ChatRoomModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="ChatroomModel.edmx.diagram">
-      <DependentUpon>ChatroomModel.edmx</DependentUpon>
+    <Content Include="Controllers\ChatRoomModel.edmx.diagram">
+      <DependentUpon>ChatRoomModel.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -251,34 +259,11 @@
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Users\Create.cshtml" />
-    <Content Include="Views\Users\Delete.cshtml" />
-    <Content Include="Views\Users\Details.cshtml" />
-    <Content Include="Views\Users\Edit.cshtml" />
-    <Content Include="Views\Users\Index.cshtml" />
-    <Content Include="Views\Repoes\Create.cshtml" />
-    <Content Include="Views\Repoes\Delete.cshtml" />
-    <Content Include="Views\Repoes\Details.cshtml" />
-    <Content Include="Views\Repoes\Edit.cshtml" />
-    <Content Include="Views\Repoes\Index.cshtml" />
-    <Content Include="Views\Chatrooms\Create.cshtml" />
-    <Content Include="Views\Chatrooms\Delete.cshtml" />
-    <Content Include="Views\Chatrooms\Details.cshtml" />
-    <Content Include="Views\Chatrooms\Edit.cshtml" />
-    <Content Include="Views\Chatrooms\Index.cshtml" />
-    <Content Include="Views\Messages\Create.cshtml" />
-    <Content Include="Views\Messages\Details.cshtml" />
-    <Content Include="Views\Messages\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
   </ItemGroup>

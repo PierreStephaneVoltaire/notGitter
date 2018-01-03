@@ -36,23 +36,27 @@ namespace notgitter.Controllers
                 var repositories = await client.Repository.GetAllForCurrent();
 
                 //add repos and user to DB
-
+               
                 var userDetails = await client.User.Current();
-                User user = new User();
-                user.email = client.User.Email.GetAll().Result.ToArray()[0].Email;
+
+                Users1 user = new Users1();
+               user.email = client.User.Email.GetAll().Result.ToArray()[0].Email;
                 user.name = userDetails.Login;
                 user.online = true;
-                
+                client.User.Current().Result.
+                //write your id here
+                Session["userid"] = "idhere";
 
-                //d.Result.ToArray()[0].Email;
-                //then add the repos if they don't exist
-                //note: at this point you'd have to create a chat room for each repo that doesn't exist
-                //index should show a list of all the repos(chat rooms available)
-                // don't forget to get the id of the owner
-                // TODO: make a viewModel for this mess
-                // TODO: the view for this page should NOT show the  chat
-                // index(list of repos)->(repos' chat panel)->(repo's details)
-                ViewBag.user = user;
+               //d.Result.ToArray()[0].Email;
+               //then add the repos if they don't exist
+               //note: at this point you'd have to create a chat room for each repo that doesn't exist
+               //index should show a list of all the repos(chat rooms available)
+               // don't forget to get the id of the owner
+               // TODO: make a viewModel for this mess
+               // TODO: the view for this page should NOT show the  chat
+               // index(list of repos)->(repos' chat panel)->(repo's details)
+              // ViewBag.user = user;
+
                 return View();
             }
             catch (AuthorizationException)

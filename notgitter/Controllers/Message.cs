@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace notgitter
+namespace notgitter.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -16,9 +16,9 @@ namespace notgitter
     {
         public int Id { get; set; }
         public string content { get; set; }
-        public System.DateTime timestamp { get; set; }
-        public int userId { get; set; }
+        public byte[] timestamp { get; set; }
+        public int ChatroomId { get; set; }
     
-        public virtual User user { get; set; }
+        public virtual User User { get; set; }
     }
 }

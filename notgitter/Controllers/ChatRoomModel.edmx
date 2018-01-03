@@ -1,0 +1,360 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ChatRoomDBModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="ChatRoomDBModelStoreContainer">
+    <EntitySet Name="Chatrooms" EntityType="ChatRoomDBModel.Store.Chatrooms" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Messages" EntityType="ChatRoomDBModel.Store.Messages" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Repoes" EntityType="ChatRoomDBModel.Store.Repoes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Users" EntityType="ChatRoomDBModel.Store.Users" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="collab" EntityType="ChatRoomDBModel.Store.collab" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="owns" Association="ChatRoomDBModel.Store.owns">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Repo" EntitySet="Repoes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_collab_User" Association="ChatRoomDBModel.Store.FK_collab_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="collab" EntitySet="collab" />
+    </AssociationSet>
+    <AssociationSet Name="FK_collab_Repo" Association="ChatRoomDBModel.Store.FK_collab_Repo">
+      <End Role="Repo" EntitySet="Repoes" />
+      <End Role="collab" EntitySet="collab" />
+    </AssociationSet>
+    <AssociationSet Name="ChatroomMessage" Association="ChatRoomDBModel.Store.ChatroomMessage">
+      <End Role="Chatroom" EntitySet="Chatrooms" />
+      <End Role="Message" EntitySet="Messages" />
+    </AssociationSet>
+    <AssociationSet Name="ChatroomRepo" Association="ChatRoomDBModel.Store.ChatroomRepo">
+      <End Role="Chatroom" EntitySet="Chatrooms" />
+      <End Role="Repo" EntitySet="Repoes" />
+    </AssociationSet>
+    <AssociationSet Name="UserMessage" Association="ChatRoomDBModel.Store.UserMessage">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Message" EntitySet="Messages" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Chatrooms">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ChatroomRepo_Chatroom_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Messages">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="content" Type="nchar" Nullable="true" MaxLength="10" />
+    <Property Name="timestamp" Type="binary" StoreGeneratedPattern="Computed" Nullable="true" MaxLength="8" />
+    <Property Name="ChatroomId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Repoes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="dateCreated" Type="datetime" Nullable="true" />
+    <Property Name="language" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="name" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="url" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="C_private_" Type="binary" Nullable="true" MaxLength="50" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="email" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="GithubId" Type="int" Nullable="true" />
+    <Property Name="online" Type="binary" Nullable="true" MaxLength="50" />
+    <Property Name="UserMessage_User_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="collab">
+    <Key>
+      <PropertyRef Name="Collaborators_Id" />
+      <PropertyRef Name="collab_User_Id" />
+    </Key>
+    <Property Name="Collaborators_Id" Type="int" Nullable="false" />
+    <Property Name="collab_User_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="owns">
+    <End Role="User" Type="ChatRoomDBModel.Store.Users" Multiplicity="1" />
+    <End Role="Repo" Type="ChatRoomDBModel.Store.Repoes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Repo">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ChatroomMessage">
+    <End Role="Chatroom" Type="ChatRoomDBModel.Store.Chatrooms" Multiplicity="1" />
+    <End Role="Message" Type="ChatRoomDBModel.Store.Messages" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Chatroom">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Message">
+        <PropertyRef Name="ChatroomId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ChatroomRepo">
+    <End Role="Chatroom" Type="ChatRoomDBModel.Store.Chatrooms" Multiplicity="*" />
+    <End Role="Repo" Type="ChatRoomDBModel.Store.Repoes" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Repo">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Chatroom">
+        <PropertyRef Name="ChatroomRepo_Chatroom_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserMessage">
+    <End Role="User" Type="ChatRoomDBModel.Store.Users" Multiplicity="*" />
+    <End Role="Message" Type="ChatRoomDBModel.Store.Messages" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Message">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="UserMessage_User_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_collab_User">
+    <End Role="User" Type="ChatRoomDBModel.Store.Users" Multiplicity="1" />
+    <End Role="collab" Type="ChatRoomDBModel.Store.collab" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="collab">
+        <PropertyRef Name="Collaborators_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_collab_Repo">
+    <End Role="collab" Type="ChatRoomDBModel.Store.collab" Multiplicity="*" />
+    <End Role="Repo" Type="ChatRoomDBModel.Store.Repoes" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Repo">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="collab">
+        <PropertyRef Name="collab_User_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ChatRoomDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Chatroom">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Messages" Relationship="ChatRoomDBModel.ChatroomMessage" FromRole="Chatroom" ToRole="Message" />
+        </EntityType>
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="content" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="timestamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="ChatroomId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="ChatRoomDBModel.UserMessage" FromRole="Message" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Repo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dateCreated" Type="DateTime" Precision="3" />
+          <Property Name="language" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="url" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="C_private_" Type="Binary" MaxLength="50" FixedLength="true" />
+          <NavigationProperty Name="Owner" Relationship="ChatRoomDBModel.owns" FromRole="Repo" ToRole="User" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Collaborators" Relationship="ChatRoomDBModel.collab" FromRole="Repo" ToRole="User" />
+          <NavigationProperty Name="Chatroom" Relationship="ChatRoomDBModel.ChatroomRepo" FromRole="Repo" ToRole="Chatroom" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GithubId" Type="Int32" />
+          <Property Name="online" Type="Binary" MaxLength="50" FixedLength="true" />
+          <NavigationProperty Name="Repoes" Relationship="ChatRoomDBModel.owns" FromRole="User" ToRole="Repo" />
+        </EntityType>
+        <EntityContainer Name="ChatRoomDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Chatrooms" EntityType="Self.Chatroom" />
+          <EntitySet Name="Messages" EntityType="Self.Message" />
+          <EntitySet Name="Repoes" EntityType="Self.Repo" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="owns" Association="ChatRoomDBModel.owns">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Repo" EntitySet="Repoes" />
+          </AssociationSet>
+          <AssociationSet Name="collab" Association="ChatRoomDBModel.collab">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Repo" EntitySet="Repoes" />
+          </AssociationSet>
+          <AssociationSet Name="ChatroomMessage" Association="ChatRoomDBModel.ChatroomMessage">
+            <End Role="Chatroom" EntitySet="Chatrooms" />
+            <End Role="Message" EntitySet="Messages" />
+          </AssociationSet>
+          <AssociationSet Name="ChatroomRepo" Association="ChatRoomDBModel.ChatroomRepo">
+            <End Role="Chatroom" EntitySet="Chatrooms" />
+            <End Role="Repo" EntitySet="Repoes" />
+          </AssociationSet>
+          <AssociationSet Name="UserMessage" Association="ChatRoomDBModel.UserMessage">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Message" EntitySet="Messages" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="owns">
+          <End Type="ChatRoomDBModel.User" Role="User" Multiplicity="1" />
+          <End Type="ChatRoomDBModel.Repo" Role="Repo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Repo">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="collab">
+          <End Type="ChatRoomDBModel.User" Role="User" Multiplicity="*" />
+          <End Type="ChatRoomDBModel.Repo" Role="Repo" Multiplicity="*" />
+        </Association>
+        <Association Name="ChatroomMessage">
+          <End Type="ChatRoomDBModel.Chatroom" Role="Chatroom" Multiplicity="1" />
+          <End Type="ChatRoomDBModel.Message" Role="Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chatroom">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="ChatroomId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ChatroomRepo">
+          <End Type="ChatRoomDBModel.Chatroom" Role="Chatroom" Multiplicity="1" />
+          <End Type="ChatRoomDBModel.Repo" Role="Repo" Multiplicity="1" />
+        </Association>
+        <Association Name="UserMessage">
+          <End Type="ChatRoomDBModel.User" Role="User" Multiplicity="1" />
+          <End Type="ChatRoomDBModel.Message" Role="Message" Multiplicity="1" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ChatRoomDBModelStoreContainer" CdmEntityContainer="ChatRoomDBEntities">
+    <EntitySetMapping Name="Chatrooms">
+      <EntityTypeMapping TypeName="IsTypeOf(ChatRoomDBModel.Chatroom)">
+        <MappingFragment StoreEntitySet="Chatrooms">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Messages">
+      <EntityTypeMapping TypeName="IsTypeOf(ChatRoomDBModel.Message)">
+        <MappingFragment StoreEntitySet="Messages">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="content" ColumnName="content" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+          <ScalarProperty Name="ChatroomId" ColumnName="ChatroomId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Repoes">
+      <EntityTypeMapping TypeName="IsTypeOf(ChatRoomDBModel.Repo)">
+        <MappingFragment StoreEntitySet="Repoes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="dateCreated" ColumnName="dateCreated" />
+          <ScalarProperty Name="language" ColumnName="language" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="url" ColumnName="url" />
+          <ScalarProperty Name="C_private_" ColumnName="C_private_" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="IsTypeOf(ChatRoomDBModel.User)">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="GithubId" ColumnName="GithubId" />
+          <ScalarProperty Name="online" ColumnName="online" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="collab" TypeName="ChatRoomDBModel.collab" StoreEntitySet="collab">
+      <EndProperty Name="User">
+        <ScalarProperty Name="Id" ColumnName="Collaborators_Id" />
+      </EndProperty>
+      <EndProperty Name="Repo">
+        <ScalarProperty Name="Id" ColumnName="collab_User_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ChatroomRepo" TypeName="ChatRoomDBModel.ChatroomRepo" StoreEntitySet="Chatrooms">
+      <EndProperty Name="Repo">
+        <ScalarProperty Name="Id" ColumnName="ChatroomRepo_Chatroom_Id" />
+      </EndProperty>
+      <EndProperty Name="Chatroom">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="UserMessage" TypeName="ChatRoomDBModel.UserMessage" StoreEntitySet="Users">
+      <EndProperty Name="Message">
+        <ScalarProperty Name="Id" ColumnName="UserMessage_User_Id" />
+      </EndProperty>
+      <EndProperty Name="User">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -7,22 +7,30 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace notgitter
+namespace notgitter.Controllers
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Chatroom
+    public partial class Repo
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Chatroom()
+        public Repo()
         {
-            this.Messages = new HashSet<Message>();
+            this.Collaborators = new HashSet<User>();
         }
     
         public int Id { get; set; }
+        public Nullable<System.DateTime> dateCreated { get; set; }
+        public string language { get; set; }
+        public string name { get; set; }
+        public string url { get; set; }
+        public byte[] C_private_ { get; set; }
+        public int UserId { get; set; }
     
+        public virtual User Owner { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Message> Messages { get; set; }
+        public virtual ICollection<User> Collaborators { get; set; }
+        public virtual Chatroom Chatroom { get; set; }
     }
 }

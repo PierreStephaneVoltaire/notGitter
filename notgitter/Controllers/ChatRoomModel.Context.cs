@@ -7,16 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace notgitter
+namespace notgitter.Controllers
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class ChatroomModelContainer : DbContext
+    public partial class ChatRoomDBEntities : DbContext
     {
-        public ChatroomModelContainer()
-            : base("name=ChatroomModelContainer")
+        public ChatRoomDBEntities()
+            : base("name=ChatRoomDBEntities")
         {
         }
     
@@ -26,8 +26,8 @@ namespace notgitter
         }
     
         public virtual DbSet<Chatroom> Chatrooms { get; set; }
-        public virtual DbSet<Repo> Repoes { get; set; }
-        public virtual DbSet<User> Users1 { get; set; }
         public virtual DbSet<Message> Messages { get; set; }
+        public virtual DbSet<Repo> Repoes { get; set; }
+        public virtual DbSet<User> Users { get; set; }
     }
 }
