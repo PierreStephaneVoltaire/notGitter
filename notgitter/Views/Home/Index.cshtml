@@ -4,9 +4,10 @@
 
 <div class="wrapper">
 
-@if (ViewBag.Message != null)
+@if (ViewBag.user != null)
 {
-<p>@ViewBag.Message</p>
+<p>@ViewBag.user.name</p>
+<p>@ViewBag.user.email</p>
 }
      
 

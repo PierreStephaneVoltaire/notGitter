@@ -36,10 +36,14 @@ namespace notgitter.Controllers
                 var repositories = await client.Repository.GetAllForCurrent();
 
                 //add repos and user to DB
-              
-                // for testing
-                //get the first email and add it to the DB
-                var d = client.User.Email.GetAll();
+
+                var userDetails = await client.User.Current();
+                User user = new User();
+                user.email = client.User.Email.GetAll().Result.ToArray()[0].Email;
+                user.name = userDetails.Login;
+                user.online = true;
+                
+
                 //d.Result.ToArray()[0].Email;
                 //then add the repos if they don't exist
                 //note: at this point you'd have to create a chat room for each repo that doesn't exist
@@ -48,7 +52,7 @@ namespace notgitter.Controllers
                 // TODO: make a viewModel for this mess
                 // TODO: the view for this page should NOT show the  chat
                 // index(list of repos)->(repos' chat panel)->(repo's details)
-                ViewBag.Message = d.Result.ToArray()[0].Email;
+                ViewBag.user = user;
                 return View();
             }
             catch (AuthorizationException)
