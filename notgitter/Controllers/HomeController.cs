@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-
+using notgitter.Models;
 
 namespace notgitter.Controllers
-{
+{   
+
+
     public class HomeController : Controller
     {
         // TODO: Replace the following values with the values from your application registration. Register an
@@ -40,26 +42,40 @@ namespace notgitter.Controllers
                
                 var userDetails = await client.User.Current();
 
-                //Models.User user = new Models.User();
+                Models.User user = new Models.User();
 
 
-              
-                //user.email= client.User.Email.GetAll().Result.ToArray()[0].Email;
-               // user.name = userDetails.Login;
-               // user.online = 8;
-                //client.User.Current().Result.
+                NotGitterDBEntities db = new NotGitterDBEntities();
+                user.email= client.User.Email.GetAll().Result.ToArray()[0].Email;
+                user.name = userDetails.Login;
+                user.online = 1;
+                user.GithubId = client.User.Current().Result.Id;
                 //write your id here
-                Session["userid"] = "idhere";
+                Session["userid"] = user;
+                Models.User checkuser = db.Users.Where(d => d.GithubId == user.GithubId).Single();
+                if (checkuser != null)
+                {
+                    db.Users.Add(user);
+                }
+                else {
 
-               //d.Result.ToArray()[0].Email;
-               //then add the repos if they don't exist
-               //note: at this point you'd have to create a chat room for each repo that doesn't exist
-               //index should show a list of all the repos(chat rooms available)
-               // don't forget to get the id of the owner
-               // TODO: make a viewModel for this mess
-               // TODO: the view for this page should NOT show the  chat
-               // index(list of repos)->(repos' chat panel)->(repo's details)
-              // ViewBag.user = user;
+                    
+
+                }
+
+
+
+
+
+                //d.Result.ToArray()[0].Email;
+                //then add the repos if they don't exist
+                //note: at this point you'd have to create a chat room for each repo that doesn't exist
+                //index should show a list of all the repos(chat rooms available)
+                // don't forget to get the id of the owner
+                // TODO: make a viewModel for this mess
+                // TODO: the view for this page should NOT show the  chat
+                // index(list of repos)->(repos' chat panel)->(repo's details)
+                // ViewBag.user = user;
 
                 return View();
             }
