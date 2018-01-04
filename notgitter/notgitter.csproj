@@ -202,10 +202,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\ChatRoomDB.mdf" />
-    <Content Include="App_Data\ChatRoomDB_log.ldf">
-      <DependentUpon>ChatRoomDB.mdf</DependentUpon>
-    </Content>
     <Content Include="App_Data\NotGitterDB.mdf" />
     <Content Include="App_Data\NotGitterDB_log.ldf">
       <DependentUpon>NotGitterDB.mdf</DependentUpon>
