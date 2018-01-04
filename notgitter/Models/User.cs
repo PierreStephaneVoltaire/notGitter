@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace notgitter.Controllers
+namespace notgitter.Models
 {
     using System;
     using System.Collections.Generic;
