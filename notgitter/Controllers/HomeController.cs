@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 
+
 namespace notgitter.Controllers
 {
     public class HomeController : Controller
@@ -39,13 +40,16 @@ namespace notgitter.Controllers
                
                 var userDetails = await client.User.Current();
 
-                //Users1 user = new Users1();
-             //  user.email = client.User.Email.GetAll().Result.ToArray()[0].Email;
+                //Models.User user = new Models.User();
+
+
+              
+                //user.email= client.User.Email.GetAll().Result.ToArray()[0].Email;
                // user.name = userDetails.Login;
-               // user.online = true;
-               // client.User.Current().Result.
+               // user.online = 8;
+                //client.User.Current().Result.
                 //write your id here
-                //Session["userid"] = "idhere";
+                Session["userid"] = "idhere";
 
                //d.Result.ToArray()[0].Email;
                //then add the repos if they don't exist

@@ -25,7 +25,7 @@ namespace notgitter.Models
         public string language { get; set; }
         public string name { get; set; }
         public string url { get; set; }
-        public byte[] C_private_ { get; set; }
+        public Nullable<int> C_private_ { get; set; }
         public int UserId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

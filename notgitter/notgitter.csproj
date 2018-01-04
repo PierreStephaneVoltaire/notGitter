@@ -263,6 +263,11 @@
     <Content Include="Views\Messages\Details.cshtml" />
     <Content Include="Views\Messages\Edit.cshtml" />
     <Content Include="Views\Messages\Index.cshtml" />
+    <Content Include="Views\Repoes\Create.cshtml" />
+    <Content Include="Views\Repoes\Delete.cshtml" />
+    <Content Include="Views\Repoes\Details.cshtml" />
+    <Content Include="Views\Repoes\Edit.cshtml" />
+    <Content Include="Views\Repoes\Index.cshtml" />
     <Content Include="Views\Chatrooms\Create.cshtml" />
     <Content Include="Views\Chatrooms\Delete.cshtml" />
     <Content Include="Views\Chatrooms\Details.cshtml" />
@@ -273,11 +278,6 @@
     <Content Include="Views\Users\Details.cshtml" />
     <Content Include="Views\Users\Edit.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
-    <Content Include="Views\Repoes\Create.cshtml" />
-    <Content Include="Views\Repoes\Delete.cshtml" />
-    <Content Include="Views\Repoes\Details.cshtml" />
-    <Content Include="Views\Repoes\Edit.cshtml" />
-    <Content Include="Views\Repoes\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -24,7 +24,7 @@ namespace notgitter.Models
         public string name { get; set; }
         public string email { get; set; }
         public Nullable<int> GithubId { get; set; }
-        public byte[] online { get; set; }
+        public Nullable<int> online { get; set; }
         public int UserMessage_User_Id { get; set; }
     
         public virtual Message Message { get; set; }

@@ -17,8 +17,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="content" Type="nchar" MaxLength="10" />
-          <Property Name="timestamp" Type="binary" MaxLength="8" />
+          <Property Name="content" Type="varchar" MaxLength="50" />
+          <Property Name="timestamp" Type="timestamp" StoreGeneratedPattern="Computed" />
           <Property Name="ChatroomId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Repoes">
@@ -30,7 +30,7 @@
           <Property Name="language" Type="varchar" MaxLength="50" />
           <Property Name="name" Type="varchar" MaxLength="50" />
           <Property Name="url" Type="varchar" MaxLength="50" />
-          <Property Name="C_private_" Type="binary" MaxLength="50" />
+          <Property Name="C_private_" Type="int" />
           <Property Name="UserId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Users">
@@ -41,7 +41,7 @@
           <Property Name="name" Type="varchar" MaxLength="50" />
           <Property Name="email" Type="varchar" MaxLength="50" />
           <Property Name="GithubId" Type="int" />
-          <Property Name="online" Type="binary" MaxLength="50" />
+          <Property Name="online" Type="int" />
           <Property Name="UserMessage_User_Id" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_ChatroomMessage">
@@ -133,8 +133,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="content" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="timestamp" Type="Binary" MaxLength="8" FixedLength="true" />
+          <Property Name="content" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="timestamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="ChatroomId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Chatroom" Relationship="Self.FK_ChatroomMessage" FromRole="Messages" ToRole="Chatrooms" />
           <NavigationProperty Name="Users" Relationship="Self.FK_UserMessage" FromRole="Messages" ToRole="Users" />
@@ -148,7 +148,7 @@
           <Property Name="language" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="url" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="C_private_" Type="Binary" MaxLength="50" FixedLength="true" />
+          <Property Name="C_private_" Type="Int32" />
           <Property Name="UserId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Chatrooms" Relationship="Self.FK_ChatroomRepo" FromRole="Repoes" ToRole="Chatrooms" />
           <NavigationProperty Name="User" Relationship="Self.FK_owns" FromRole="Repoes" ToRole="Users" />
@@ -161,7 +161,7 @@
           <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="GithubId" Type="Int32" />
-          <Property Name="online" Type="Binary" MaxLength="50" FixedLength="true" />
+          <Property Name="online" Type="Int32" />
           <Property Name="UserMessage_User_Id" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Message" Relationship="Self.FK_UserMessage" FromRole="Users" ToRole="Messages" />
           <NavigationProperty Name="Repoes" Relationship="Self.FK_owns" FromRole="Users" ToRole="Repoes" />
