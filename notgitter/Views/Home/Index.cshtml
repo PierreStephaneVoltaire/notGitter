@@ -23,9 +23,7 @@
         <th>
             @Html.DisplayNameFor(model => model.url)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.C_private_)
-        </th>
+       
         <th>
             @Html.DisplayNameFor(model => model.User.name)
         </th>
@@ -46,16 +44,14 @@
         <td>
             @Html.DisplayFor(modelItem => item.url)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.C_private_)
-        </td>
+     
         <td>
             @Html.DisplayFor(modelItem => item.User.name)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.RepoId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.RepoId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.RepoId })
+           
+            @Html.ActionLink("Go into chatroom!", "Index", "ChatRoom", new { id=item.RepoId }) |
+         
         </td>
     </tr>
 }
