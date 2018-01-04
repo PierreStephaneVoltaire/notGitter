@@ -14,19 +14,14 @@ namespace notgitter.Models
     
     public partial class Message
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Message()
-        {
-            this.Users = new HashSet<User>();
-        }
-    
         public int Id { get; set; }
-        public string content { get; set; }
+        public string Content { get; set; }
         public byte[] timestamp { get; set; }
-        public int ChatroomId { get; set; }
+        public string UserName { get; set; }
+        public long RepoId { get; set; }
+        public int Uid { get; set; }
     
-        public virtual Chatroom Chatroom { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<User> Users { get; set; }
+        public virtual Repo Repo { get; set; }
+        public virtual User User { get; set; }
     }
 }

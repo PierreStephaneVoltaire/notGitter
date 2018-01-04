@@ -17,19 +17,19 @@ namespace notgitter.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Repo()
         {
-            this.Chatrooms = new HashSet<Chatroom>();
+            this.Messages = new HashSet<Message>();
         }
     
-        public int Id { get; set; }
+        public long RepoId { get; set; }
         public Nullable<System.DateTime> dateCreated { get; set; }
         public string language { get; set; }
         public string name { get; set; }
         public string url { get; set; }
         public Nullable<int> C_private_ { get; set; }
-        public int UserId { get; set; }
+        public Nullable<int> UId { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Chatroom> Chatrooms { get; set; }
         public virtual User User { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Message> Messages { get; set; }
     }
 }

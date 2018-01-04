@@ -164,40 +164,33 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\ChatroomsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\MessagesController.cs" />
-    <Compile Include="Controllers\RepoesController.cs" />
-    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Chatroom.cs">
-      <DependentUpon>ChatRoomModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ChatRoomModel.Context.cs">
+    <Compile Include="Models\ChatApplicationModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ChatRoomModel.Context.tt</DependentUpon>
+      <DependentUpon>ChatApplicationModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ChatRoomModel.cs">
+    <Compile Include="Models\ChatApplicationModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ChatRoomModel.tt</DependentUpon>
+      <DependentUpon>ChatApplicationModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ChatRoomModel.Designer.cs">
+    <Compile Include="Models\ChatApplicationModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ChatRoomModel.edmx</DependentUpon>
+      <DependentUpon>ChatApplicationModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\Message.cs">
-      <DependentUpon>ChatRoomModel.tt</DependentUpon>
+      <DependentUpon>ChatApplicationModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Repo.cs">
-      <DependentUpon>ChatRoomModel.tt</DependentUpon>
+      <DependentUpon>ChatApplicationModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\User.cs">
-      <DependentUpon>ChatRoomModel.tt</DependentUpon>
+      <DependentUpon>ChatApplicationModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -208,32 +201,31 @@
     </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Models\ChatRoomModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ChatRoomModel.edmx</DependentUpon>
-      <LastGenOutput>ChatRoomModel.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\ChatRoomModel.edmx.sql" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Models\ChatRoomModel.tt">
+    <Content Include="Models\ChatApplicationModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ChatRoomModel.edmx</DependentUpon>
-      <LastGenOutput>ChatRoomModel.cs</LastGenOutput>
+      <DependentUpon>ChatApplicationModel.edmx</DependentUpon>
+      <LastGenOutput>ChatApplicationModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\ChatApplicationModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ChatApplicationModel.edmx</DependentUpon>
+      <LastGenOutput>ChatApplicationModel.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <EntityDeploy Include="Models\ChatRoomModel.edmx">
+    <EntityDeploy Include="Models\ChatApplicationModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ChatRoomModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>ChatApplicationModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\ChatRoomModel.edmx.diagram">
-      <DependentUpon>ChatRoomModel.edmx</DependentUpon>
+    <Content Include="Models\ChatApplicationModel.edmx.diagram">
+      <DependentUpon>ChatApplicationModel.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -254,32 +246,13 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Web.config" />
-    <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Messages\Create.cshtml" />
-    <Content Include="Views\Messages\Delete.cshtml" />
-    <Content Include="Views\Messages\Details.cshtml" />
-    <Content Include="Views\Messages\Edit.cshtml" />
-    <Content Include="Views\Messages\Index.cshtml" />
-    <Content Include="Views\Repoes\Create.cshtml" />
-    <Content Include="Views\Repoes\Delete.cshtml" />
-    <Content Include="Views\Repoes\Details.cshtml" />
-    <Content Include="Views\Repoes\Edit.cshtml" />
-    <Content Include="Views\Repoes\Index.cshtml" />
-    <Content Include="Views\Chatrooms\Create.cshtml" />
-    <Content Include="Views\Chatrooms\Delete.cshtml" />
-    <Content Include="Views\Chatrooms\Details.cshtml" />
-    <Content Include="Views\Chatrooms\Edit.cshtml" />
-    <Content Include="Views\Chatrooms\Index.cshtml" />
-    <Content Include="Views\Users\Create.cshtml" />
-    <Content Include="Views\Users\Delete.cshtml" />
-    <Content Include="Views\Users\Details.cshtml" />
-    <Content Include="Views\Users\Edit.cshtml" />
-    <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\Chatroom\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
   </ItemGroup>

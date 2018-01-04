@@ -1,0 +1,224 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="NotGitterDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Content" Type="varchar" MaxLength="50" />
+          <Property Name="timestamp" Type="timestamp" StoreGeneratedPattern="Computed" />
+          <Property Name="UserName" Type="varchar" MaxLength="50" />
+          <Property Name="RepoId" Type="bigint" Nullable="false" />
+          <Property Name="Uid" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Repoes">
+          <Key>
+            <PropertyRef Name="RepoId" />
+          </Key>
+          <Property Name="RepoId" Type="bigint" Nullable="false" />
+          <Property Name="dateCreated" Type="datetime" />
+          <Property Name="language" Type="varchar" MaxLength="50" />
+          <Property Name="name" Type="varchar" MaxLength="50" />
+          <Property Name="url" Type="varchar" MaxLength="50" />
+          <Property Name="C_private_" Type="int" />
+          <Property Name="UId" Type="int" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UId" />
+          </Key>
+          <Property Name="UId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" />
+          <Property Name="email" Type="varchar" MaxLength="50" />
+          <Property Name="GithubId" Type="int" />
+          <Property Name="online" Type="int" />
+        </EntityType>
+        <Association Name="FK_owns">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Repoes" Type="Self.Repoes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UId" />
+            </Principal>
+            <Dependent Role="Repoes">
+              <PropertyRef Name="UId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="NotGitterDBModelStoreContainer">
+          <EntitySet Name="Message" EntityType="Self.Message" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Repoes" EntityType="Self.Repoes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_owns" Association="Self.FK_owns">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Repoes" EntitySet="Repoes" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="NotGitterDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Content" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="timestamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RepoId" Type="Int64" Nullable="false" />
+          <Property Name="Uid" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Repo" Relationship="NotGitterDBModel.MessageRepo" FromRole="Message" ToRole="Repo" />
+          <NavigationProperty Name="User" Relationship="NotGitterDBModel.MessageUser" FromRole="Message" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Repo">
+          <Key>
+            <PropertyRef Name="RepoId" />
+          </Key>
+          <Property Name="RepoId" Type="Int64" Nullable="false" />
+          <Property Name="dateCreated" Type="DateTime" Precision="3" />
+          <Property Name="language" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="url" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="C_private_" Type="Int32" />
+          <Property Name="UId" Type="Int32" />
+          <NavigationProperty Name="User" Relationship="Self.FK_owns" FromRole="Repoes" ToRole="Users" />
+          <NavigationProperty Name="Messages" Relationship="NotGitterDBModel.MessageRepo" FromRole="Repo" ToRole="Message" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UId" />
+          </Key>
+          <Property Name="UId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GithubId" Type="Int32" />
+          <Property Name="online" Type="Int32" />
+          <NavigationProperty Name="Repoes" Relationship="Self.FK_owns" FromRole="Users" ToRole="Repoes" />
+          <NavigationProperty Name="Messages" Relationship="NotGitterDBModel.MessageUser" FromRole="User" ToRole="Message" />
+        </EntityType>
+        <Association Name="FK_owns">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Repoes" Type="Self.Repo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UId" />
+            </Principal>
+            <Dependent Role="Repoes">
+              <PropertyRef Name="UId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="NotGitterDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Messages" EntityType="Self.Message" />
+          <EntitySet Name="Repoes" EntityType="Self.Repo" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK_owns" Association="Self.FK_owns">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Repoes" EntitySet="Repoes" />
+          </AssociationSet>
+          <AssociationSet Name="MessageRepo" Association="NotGitterDBModel.MessageRepo">
+            <End Role="Message" EntitySet="Messages" />
+            <End Role="Repo" EntitySet="Repoes" />
+          </AssociationSet>
+          <AssociationSet Name="MessageUser" Association="NotGitterDBModel.MessageUser">
+            <End Role="Message" EntitySet="Messages" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="MessageRepo">
+          <End Type="NotGitterDBModel.Message" Role="Message" Multiplicity="*" />
+          <End Type="NotGitterDBModel.Repo" Role="Repo" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Repo">
+              <PropertyRef Name="RepoId" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="RepoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MessageUser">
+          <End Type="NotGitterDBModel.Message" Role="Message" Multiplicity="*" />
+          <End Type="NotGitterDBModel.User" Role="User" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UId" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="Uid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="NotGitterDBModelStoreContainer" CdmEntityContainer="NotGitterDBEntities">
+          <EntitySetMapping Name="Messages">
+            <EntityTypeMapping TypeName="NotGitterDBModel.Message">
+              <MappingFragment StoreEntitySet="Message">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="RepoId" ColumnName="RepoId" />
+                <ScalarProperty Name="Uid" ColumnName="Uid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Repoes">
+            <EntityTypeMapping TypeName="NotGitterDBModel.Repo">
+              <MappingFragment StoreEntitySet="Repoes">
+                <ScalarProperty Name="RepoId" ColumnName="RepoId" />
+                <ScalarProperty Name="dateCreated" ColumnName="dateCreated" />
+                <ScalarProperty Name="language" ColumnName="language" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="url" ColumnName="url" />
+                <ScalarProperty Name="C_private_" ColumnName="C_private_" />
+                <ScalarProperty Name="UId" ColumnName="UId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="NotGitterDBModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UId" ColumnName="UId" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="GithubId" ColumnName="GithubId" />
+                <ScalarProperty Name="online" ColumnName="online" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

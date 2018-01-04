@@ -18,17 +18,18 @@ namespace notgitter.Models
         public User()
         {
             this.Repoes = new HashSet<Repo>();
+            this.Messages = new HashSet<Message>();
         }
     
-        public int Id { get; set; }
+        public int UId { get; set; }
         public string name { get; set; }
         public string email { get; set; }
         public Nullable<int> GithubId { get; set; }
         public Nullable<int> online { get; set; }
-        public int UserMessage_User_Id { get; set; }
     
-        public virtual Message Message { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Repo> Repoes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Message> Messages { get; set; }
     }
 }

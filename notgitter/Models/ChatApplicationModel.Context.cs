@@ -25,7 +25,6 @@ namespace notgitter.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Chatroom> Chatrooms { get; set; }
         public virtual DbSet<Message> Messages { get; set; }
         public virtual DbSet<Repo> Repoes { get; set; }
         public virtual DbSet<User> Users { get; set; }

@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using notgitter.Models;
-
+using System.Data.Entity;
 namespace notgitter.Controllers
 {   
 
@@ -23,6 +23,9 @@ namespace notgitter.Controllers
 
         // This URL uses the GitHub API to get a list of the current user's
         // repositories which include public and private repositories.
+
+     
+
         public async Task<ActionResult> Index()
         {
             var accessToken = Session["OAuthToken"] as string;
@@ -32,12 +35,15 @@ namespace notgitter.Controllers
                 // without ever having the user's OAuth credentials.
                 client.Credentials = new Credentials(accessToken);
             }
+            else {
+
+                return Redirect(GetOauthLoginUrl());
+            }
             try
             {
                 // The following requests retrieves all of the user's repositories and
                 // requires that the user be logged in to work.
-                var repositories = await client.Repository.GetAllForCurrent();
-
+             
                 //add repos and user to DB
                
                 var userDetails = await client.User.Current();
@@ -49,23 +55,56 @@ namespace notgitter.Controllers
                 user.email= client.User.Email.GetAll().Result.ToArray()[0].Email;
                 user.name = userDetails.Login;
                 user.online = 1;
+                var id=0;
                 user.GithubId = client.User.Current().Result.Id;
                 //write your id here
-                Session["userid"] = user;
-                Models.User checkuser = db.Users.Where(d => d.GithubId == user.GithubId).Single();
-                if (checkuser != null)
+              
+                Models.User checkuser = db.Users.Where(d => d.GithubId == user.GithubId).FirstOrDefault();
+                
+                if (checkuser == null)
                 {
                     db.Users.Add(user);
+                    id = user.UId;
                 }
                 else {
+                    db.Entry(checkuser).State = EntityState.Modified;
+                    id = checkuser.UId; 
+                }
+                IReadOnlyList<Repository> repos = await client.Repository.GetAllForCurrent();
+                System.Diagnostics.Debug.Write(repos.Count);
+                
+                foreach (Repository e in repos)
+                {
+                    Repo newone = new Repo();
+                    newone.UId = id;
+                    newone.dateCreated = e.CreatedAt.DateTime;
+                    newone.language = e.Language;
+                    newone.C_private_ = e.Private ? 1 : 0;
+                    newone.RepoId = e.Id;
+                    newone.name = e.Name;
+                    db.Repoes.Add(newone);
+                   
 
-                    
+                    Repo repo = db.Repoes.Find(e.Id);
+                    if (repo != null)
+                    { db.Entry(newone).State = EntityState.Modified; }
+
+                    else
+                    {
+                        newone.UId = id;
+                        newone.dateCreated = e.CreatedAt.DateTime;
+                        newone.language = e.Language;
+                        newone.C_private_ = e.Private ? 1 : 0;
+                        newone.RepoId = e.Id;
+                        newone.name = e.Name;
+                        db.Repoes.Add(newone);
+                    }
+                
 
                 }
 
 
-
-
+                db.SaveChanges();
 
                 //d.Result.ToArray()[0].Email;
                 //then add the repos if they don't exist
@@ -76,8 +115,8 @@ namespace notgitter.Controllers
                 // TODO: the view for this page should NOT show the  chat
                 // index(list of repos)->(repos' chat panel)->(repo's details)
                 // ViewBag.user = user;
-
-                return View();
+                
+                return View(db.Repoes.Where(e=>e.UId==id).ToList());
             }
             catch (AuthorizationException)
             {
