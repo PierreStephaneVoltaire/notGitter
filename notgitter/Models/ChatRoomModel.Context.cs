@@ -13,10 +13,10 @@ namespace notgitter.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class ChatRoomDBEntities : DbContext
+    public partial class NotGitterDBEntities : DbContext
     {
-        public ChatRoomDBEntities()
-            : base("name=ChatRoomDBEntities")
+        public NotGitterDBEntities()
+            : base("name=NotGitterDBEntities")
         {
         }
     

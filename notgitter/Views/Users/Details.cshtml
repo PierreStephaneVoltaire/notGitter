@@ -1,0 +1,58 @@
+﻿@model notgitter.Models.User
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>User</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GithubId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GithubId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.online)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.online)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Message.content)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Message.content)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

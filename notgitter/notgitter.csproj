@@ -164,6 +164,14 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ChatroomsController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MessagesController.cs" />
+    <Compile Include="Controllers\RepoesController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
     <Compile Include="Models\Chatroom.cs">
       <DependentUpon>ChatRoomModel.tt</DependentUpon>
     </Compile>
@@ -182,7 +190,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ChatRoomModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Models\Message.cs">
       <DependentUpon>ChatRoomModel.tt</DependentUpon>
     </Compile>
@@ -191,9 +198,6 @@
     </Compile>
     <Compile Include="Models\User.cs">
       <DependentUpon>ChatRoomModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Global.asax.cs">
-      <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -210,15 +214,15 @@
       <LastGenOutput>ChatRoomModel.Context.cs</LastGenOutput>
     </Content>
     <Content Include="Models\ChatRoomModel.edmx.sql" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
     <Content Include="Models\ChatRoomModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ChatRoomModel.edmx</DependentUpon>
       <LastGenOutput>ChatRoomModel.cs</LastGenOutput>
     </Content>
-    <Content Include="favicon.ico" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -254,6 +258,26 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Messages\Create.cshtml" />
+    <Content Include="Views\Messages\Delete.cshtml" />
+    <Content Include="Views\Messages\Details.cshtml" />
+    <Content Include="Views\Messages\Edit.cshtml" />
+    <Content Include="Views\Messages\Index.cshtml" />
+    <Content Include="Views\Chatrooms\Create.cshtml" />
+    <Content Include="Views\Chatrooms\Delete.cshtml" />
+    <Content Include="Views\Chatrooms\Details.cshtml" />
+    <Content Include="Views\Chatrooms\Edit.cshtml" />
+    <Content Include="Views\Chatrooms\Index.cshtml" />
+    <Content Include="Views\Users\Create.cshtml" />
+    <Content Include="Views\Users\Delete.cshtml" />
+    <Content Include="Views\Users\Details.cshtml" />
+    <Content Include="Views\Users\Edit.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Repoes\Create.cshtml" />
+    <Content Include="Views\Repoes\Delete.cshtml" />
+    <Content Include="Views\Repoes\Details.cshtml" />
+    <Content Include="Views\Repoes\Edit.cshtml" />
+    <Content Include="Views\Repoes\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

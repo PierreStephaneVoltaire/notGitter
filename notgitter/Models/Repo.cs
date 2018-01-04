@@ -17,7 +17,7 @@ namespace notgitter.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Repo()
         {
-            this.Collaborators = new HashSet<User>();
+            this.Chatrooms = new HashSet<Chatroom>();
         }
     
         public int Id { get; set; }
@@ -28,9 +28,8 @@ namespace notgitter.Models
         public byte[] C_private_ { get; set; }
         public int UserId { get; set; }
     
-        public virtual User Owner { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<User> Collaborators { get; set; }
-        public virtual Chatroom Chatroom { get; set; }
+        public virtual ICollection<Chatroom> Chatrooms { get; set; }
+        public virtual User User { get; set; }
     }
 }

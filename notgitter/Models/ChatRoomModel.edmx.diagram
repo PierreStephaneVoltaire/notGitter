@@ -4,16 +4,15 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="e33e61033299466fbf30dcd2655121ae" Name="Diagram1">
-        <EntityTypeShape EntityType="ChatRoomDBModel.Chatroom" Width="1.5" PointX="2" PointY="2.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="ChatRoomDBModel.Message" Width="1.5" PointX="5.625" PointY="0.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="ChatRoomDBModel.Repo" Width="1.5" PointX="5.625" PointY="3.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="ChatRoomDBModel.User" Width="1.5" PointX="8.5" PointY="3.375" IsExpanded="true" />
-        <AssociationConnector Association="ChatRoomDBModel.owns" />
-        <AssociationConnector Association="ChatRoomDBModel.collab" />
-        <AssociationConnector Association="ChatRoomDBModel.ChatroomMessage" />
-        <AssociationConnector Association="ChatRoomDBModel.ChatroomRepo" />
-        <AssociationConnector Association="ChatRoomDBModel.UserMessage" />
+      <Diagram DiagramId="7f46f7e8f0ae487281e828b2cf5cb2ae" Name="Diagram1">
+        <EntityTypeShape EntityType="NotGitterDBModel.Chatroom" Width="1.5" PointX="3" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="NotGitterDBModel.Message" Width="1.5" PointX="5.25" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="NotGitterDBModel.Repo" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="NotGitterDBModel.User" Width="1.5" PointX="7.5" PointY="1" IsExpanded="true" />
+        <AssociationConnector Association="NotGitterDBModel.FK_ChatroomMessage" ManuallyRouted="false" />
+        <AssociationConnector Association="NotGitterDBModel.FK_ChatroomRepo" ManuallyRouted="false" />
+        <AssociationConnector Association="NotGitterDBModel.FK_UserMessage" ManuallyRouted="false" />
+        <AssociationConnector Association="NotGitterDBModel.FK_owns" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

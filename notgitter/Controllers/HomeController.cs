@@ -39,13 +39,13 @@ namespace notgitter.Controllers
                
                 var userDetails = await client.User.Current();
 
-                Users1 user = new Users1();
-               user.email = client.User.Email.GetAll().Result.ToArray()[0].Email;
-                user.name = userDetails.Login;
-                user.online = true;
-                client.User.Current().Result.
+                //Users1 user = new Users1();
+             //  user.email = client.User.Email.GetAll().Result.ToArray()[0].Email;
+               // user.name = userDetails.Login;
+               // user.online = true;
+               // client.User.Current().Result.
                 //write your id here
-                Session["userid"] = "idhere";
+                //Session["userid"] = "idhere";
 
                //d.Result.ToArray()[0].Email;
                //then add the repos if they don't exist

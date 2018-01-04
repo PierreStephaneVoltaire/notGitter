@@ -21,8 +21,10 @@ namespace notgitter.Models
         }
     
         public int Id { get; set; }
+        public int ChatroomRepo_Chatroom_Id { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Message> Messages { get; set; }
+        public virtual Repo Repo { get; set; }
     }
 }
