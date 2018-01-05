@@ -90,7 +90,7 @@ namespace notgitter.Controllers
 
 
                     Models.Repo repo = db.Repoes.Find(e.Id);
-                    IReadOnlyList<Issue> gitRepoIssues = (client.client.Issue.GetAllForRepository(e.Id)).Result.ToList();
+                //    IReadOnlyList<Issue> gitRepoIssues = (client.client.Issue.GetAllForRepository(e.Id)).Result.ToList();
                     if (repo != null)
                     {
 
@@ -116,8 +116,10 @@ namespace notgitter.Controllers
                 // TODO: make a viewModel for this mess
                 // TODO: the view for this page should NOT show the  chat
                 // index(list of repos)->(repos' chat panel)->(repo's details)
-                // ViewBag.user = user;
-                
+                ViewBag.name = user.name;
+                ViewBag.id= user.UId;
+
+
                 return View(db.Repoes.Where(e=>e.UId==id).ToList());
             }
             catch (AuthorizationException)

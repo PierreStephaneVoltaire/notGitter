@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using notgitter.Models;
-
+using System.Threading.Tasks;
 namespace notgitter.Controllers
 {
     public class ChatRoomController : Controller
@@ -15,15 +15,12 @@ namespace notgitter.Controllers
         {    
              return View();
         }
-        
-        public ActionResult MessageAdd(string message) {
-
-
+        [HttpGet]
+        public ActionResult Index(string repoName,int userID)
+        {
             return View();
-
-
         }
-
+       
 
 
 
