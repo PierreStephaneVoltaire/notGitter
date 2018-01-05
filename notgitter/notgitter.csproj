@@ -202,6 +202,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\NotGitterDB.mdf" />
     <Content Include="ChatroomModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ChatroomModel.Context.cs</LastGenOutput>
@@ -276,7 +277,6 @@
     <Content Include="Views\Messages\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
