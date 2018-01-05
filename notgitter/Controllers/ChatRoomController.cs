@@ -33,6 +33,7 @@ namespace notgitter.Controllers
             return View();
         }
         
+        [HttpGet]
         public ActionResult MessageAdd(string message) {
 
             var repoName = "";
@@ -50,7 +51,7 @@ namespace notgitter.Controllers
 
             //Get current user
             Models.User user = new Models.User();
-            user = db.Users.Where(a => a.GithubId == .... get user id);
+            user = db.Users.Where(a => a.GithubId == git.client.User.Current().Result.Id).FirstOrDefault();
 
             //Get Current Repo
             Repo repo = new Repo();
@@ -60,23 +61,24 @@ namespace notgitter.Controllers
             var repoId = 0;
             //check repoid
 
-            newMessage.Content = this.; //text content
+           // newMessage.Content = this.newMessageInput.Text; //text content
             newMessage.UserName = user.name;
             newMessage.Uid = user.UId;
             newMessage.timestamp = currentTime;
-            newMessage.RepoId = repo.RepoId;//get repo id???
+            newMessage.RepoId = repo.RepoId;
 
-            db.Messages.Add(newMessage);
+            repo.Messages.Add(newMessage);
+
+           // db.Repoes.
 
             db.SaveChanges();
 
 
 
-            return View(db.Messages.Where(c=>c.RepoId == repoId).ToList());
+            return View(db.Repoes.Where(rp=>rp.name == repoName).ToList());
 
 
         }
-
 
 
 
