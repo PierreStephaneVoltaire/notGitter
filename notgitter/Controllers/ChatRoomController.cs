@@ -18,17 +18,38 @@ namespace notgitter.Controllers
         {
 
             var repoName = "";
-            //Get Repo Name
+
+            //Get Repo Name from url parameter
             if (Request.QueryString["repoName"] != null)
             {
                 repoName = Request.QueryString["repoName"];
             }
             else
-            {
+            {   //if reponame is not exist send back to repositary view
                 return Redirect("Index");
             }
-            
 
+            Repo repo = new Repo();
+            ICollection<Repo> repoes = db.Repoes.Where(rp => rp.name == repoName).ToList();
+            List<long> repoid = new List<long>();
+            List<Message> messages = new List<Message>();
+
+            // Get All the Repo ID that have same Repo name
+            foreach (Repo rp in repoes)
+            {
+                repoid.Add(rp.RepoId);
+            }
+
+            // Get all the Message that contain repoid
+            for(int i = 0; i < repoid.Count(); i++)
+            {
+                ICollection<Message> oneRepoMessages = db.Messages.Where(m => m.RepoId == repoid[i]).ToList();
+                foreach (Message m in oneRepoMessages)
+                {
+                    messages.Add(m);
+                }
+            }
+            //Need to swap message according to timestamp
 
             return View();
         }
@@ -47,6 +68,7 @@ namespace notgitter.Controllers
                 return Redirect("Index");
             }
 
+            // Get CurrentTime
             DateTime currentTime = DateTime.Now;
 
             //Get current user
@@ -58,8 +80,6 @@ namespace notgitter.Controllers
             repo = db.Repoes.Where(rp => rp.name == repoName).FirstOrDefault<Repo>();
 
             Message newMessage = new Message();
-            var repoId = 0;
-            //check repoid
 
            // newMessage.Content = this.newMessageInput.Text; //text content
             newMessage.UserName = user.name;
@@ -67,15 +87,13 @@ namespace notgitter.Controllers
             newMessage.timestamp = currentTime;
             newMessage.RepoId = repo.RepoId;
 
-            repo.Messages.Add(newMessage);
+            //Add to Database
+            db.Messages.Add(newMessage);
 
-           // db.Repoes.
-
+            //save changes
             db.SaveChanges();
 
-
-
-            return View(db.Repoes.Where(rp=>rp.name == repoName).ToList());
+            return View();
 
 
         }
