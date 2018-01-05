@@ -76,7 +76,8 @@ namespace notgitter.Controllers
                     Models.Repo oldone = await db.Repoes.Where(rp => rp.url == e.Url).FirstOrDefaultAsync<Models.Repo>();
                     Models.Repo newone1 = new Models.Repo();
                     if(oldone != null)
-                    {   newone1 = oldone;
+                    {
+                        newone1 = oldone;
                     }
 
                     newone1.UId = id;
@@ -94,7 +95,8 @@ namespace notgitter.Controllers
                     if (repo != null)
                     {
 
-                        db.Entry(newone1).State = EntityState.Modified; }
+                        db.Entry(newone1).State = EntityState.Modified;
+                    }
 
                     else
                     {
