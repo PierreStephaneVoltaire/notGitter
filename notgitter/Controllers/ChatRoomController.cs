@@ -16,42 +16,10 @@ namespace notgitter.Controllers
         // GET: ChatRoom
         public ActionResult Index()
         {
-
-            var repoName = "";
-
-            //Get Repo Name from url parameter
-            if (Request.QueryString["repoName"] != null)
-            {
-                repoName = Request.QueryString["repoName"];
-            }
-            else
-            {   //if reponame is not exist send back to repositary view
-                return Redirect("Index");
-            }
-
-            Repo repo = new Repo();
-            ICollection<Repo> repoes = db.Repoes.Where(rp => rp.name == repoName).ToList();
-            List<long> repoid = new List<long>();
             List<Message> messages = new List<Message>();
+            messages = getMessage();
 
-            // Get All the Repo ID that have same Repo name
-            foreach (Repo rp in repoes)
-            {
-                repoid.Add(rp.RepoId);
-            }
-
-            // Get all the Message that contain repoid
-            for(int i = 0; i < repoid.Count(); i++)
-            {
-                ICollection<Message> oneRepoMessages = db.Messages.Where(m => m.RepoId == repoid[i]).ToList();
-                foreach (Message m in oneRepoMessages)
-                {
-                    messages.Add(m);
-                }
-            }
-            //Need to swap message according to timestamp
-
-            return View();
+            return View(messages);
         }
         
         [HttpGet]
@@ -93,12 +61,50 @@ namespace notgitter.Controllers
             //save changes
             db.SaveChanges();
 
-            return View();
+            //Getting all message for listing
+            List<Message> messages = new List<Message>();
+            messages = getMessage();
 
-
+            return View(message);    
         }
 
+        public List<Message> getMessage()
+        {
+            var repoName = "";
 
+            //Get Repo Name from url parameter
+            if (Request.QueryString["repoName"] != null)
+            {
+                repoName = Request.QueryString["repoName"];
+            }
+            else
+            {   //if reponame is not exist send back to repositary view
+                
+            }
 
+            Repo repo = new Repo();
+            ICollection<Repo> repoes = db.Repoes.Where(rp => rp.name == repoName).ToList();
+            List<long> repoid = new List<long>();
+            List<Message> messages = new List<Message>();
+
+            // Get All the Repo ID that have same Repo name
+            foreach (Repo rp in repoes)
+            {
+                repoid.Add(rp.RepoId);
+            }
+
+            // Get all the Message that contain repoid
+            for (int i = 0; i < repoid.Count(); i++)
+            {
+                ICollection<Message> oneRepoMessages = db.Messages.Where(m => m.RepoId == repoid[i]).ToList();
+                foreach (Message m in oneRepoMessages)
+                {
+                    messages.Add(m);
+                }
+            }
+            //Need to swap message according to timestamp
+
+            return messages;
+        }
     }
-}
+} 
