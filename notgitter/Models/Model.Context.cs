@@ -7,16 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace notgitter
+namespace notgitter.Models
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class ChatroomModelContainer : DbContext
+    public partial class NotGitterDBEntities : DbContext
     {
-        public ChatroomModelContainer()
-            : base("name=ChatroomModelContainer")
+        public NotGitterDBEntities()
+            : base("name=NotGitterDBEntities")
         {
         }
     
@@ -25,9 +25,8 @@ namespace notgitter
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Chatroom> Chatrooms { get; set; }
-        public virtual DbSet<Repo> Repoes { get; set; }
-        public virtual DbSet<User> Users1 { get; set; }
         public virtual DbSet<Message> Messages { get; set; }
+        public virtual DbSet<Repo> Repoes { get; set; }
+        public virtual DbSet<User> Users { get; set; }
     }
 }

@@ -6,20 +6,24 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using notgitter.Models;
+using System.Data.Entity;
 
 namespace notgitter.Controllers
-{
+{   
+
+
     public class HomeController : Controller
     {
         // TODO: Replace the following values with the values from your application registration. Register an
         // application at https://github.com/settings/applications/new to get these values.
-        const string clientId = "ebc5b3174e7840ea3164";
-        private const string clientSecret = "36befd087000855e599f32cec03c1724da012164";
-        readonly GitHubClient client =
-            new GitHubClient(new ProductHeaderValue("FinalProject"), new Uri("https://github.com/"));
+
 
         // This URL uses the GitHub API to get a list of the current user's
         // repositories which include public and private repositories.
+        GitAPI client = new GitAPI();
+     
+
         public async Task<ActionResult> Index()
         {
             var accessToken = Session["OAuthToken"] as string;
@@ -27,22 +31,82 @@ namespace notgitter.Controllers
             {
                 // This allows the client to make requests to the GitHub API on the user's behalf
                 // without ever having the user's OAuth credentials.
-                client.Credentials = new Credentials(accessToken);
+                client.client.Credentials = new Credentials(accessToken);
+               
+            }
+            else {
+
+                return Redirect(GetOauthLoginUrl());
             }
             try
             {
                 // The following requests retrieves all of the user's repositories and
                 // requires that the user be logged in to work.
-                var repositories = await client.Repository.GetAllForCurrent();
-
+             
                 //add repos and user to DB
+               
+                var userDetails = await client.client.User.Current();
+               
+                 Models.User user = new Models.User();
 
-                var userDetails = await client.User.Current();
-                User user = new User();
-                user.email = client.User.Email.GetAll().Result.ToArray()[0].Email;
+
+                NotGitterDBEntities db = new NotGitterDBEntities();
+                user.email= client.client.User.Email.GetAll().Result.ToArray()[0].Email;
                 user.name = userDetails.Login;
-                user.online = true;
+                user.online = 1;
+                var id=0;
+                user.GithubId = client.client.User.Current().Result.Id;
+                //write your id here
+              
+                Models.User checkuser = db.Users.Where(d => d.GithubId == user.GithubId).FirstOrDefault();
                 
+                if (checkuser == null)
+                {
+                    db.Users.Add(user);
+                    id = user.UId;
+                }
+                else {
+                    db.Entry(checkuser).State = EntityState.Modified;
+                    id = checkuser.UId; 
+                }
+                IReadOnlyList<Repository> repos = await client.client.Repository.GetAllForCurrent();
+
+                 foreach (Repository e in repos)
+                {
+                    Models.Repo oldone = await db.Repoes.Where(rp => rp.url == e.Url).FirstOrDefaultAsync<Models.Repo>();
+                    Models.Repo newone1 = new Models.Repo();
+                    if(oldone != null)   
+                    {   newone1 = oldone;
+                    }
+
+                    newone1.UId = id;
+                    newone1.url = e.Url;
+                    newone1.dateCreated = e.CreatedAt.DateTime;
+                    newone1.language = e.Language;
+                    newone1.C_private_ = e.Private ? 1 : 0;
+                    newone1.RepoId = e.Id;
+                    newone1.name = e.Name;
+
+
+
+                    Models.Repo repo = db.Repoes.Find(e.Id);
+                    IReadOnlyList<Issue> gitRepoIssues = (client.client.Issue.GetAllForRepository(e.Id)).Result.ToList();
+                    if (repo != null)
+                    {
+
+                        db.Entry(newone1).State = EntityState.Modified; }
+
+                    else
+                    {
+                   
+                        db.Repoes.Add(newone1);
+                    }
+                
+
+                }
+
+
+                db.SaveChanges();
 
                 //d.Result.ToArray()[0].Email;
                 //then add the repos if they don't exist
@@ -52,8 +116,9 @@ namespace notgitter.Controllers
                 // TODO: make a viewModel for this mess
                 // TODO: the view for this page should NOT show the  chat
                 // index(list of repos)->(repos' chat panel)->(repo's details)
-                ViewBag.user = user;
-                return View();
+                // ViewBag.user = user;
+                
+                return View(db.Repoes.Where(e=>e.UId==id).ToList());
             }
             catch (AuthorizationException)
             {
@@ -71,8 +136,8 @@ namespace notgitter.Controllers
                 if (state != expectedState) throw new InvalidOperationException("SECURITY FAIL!");
                 Session["CSRF:State"] = null;
 
-                var token = await client.Oauth.CreateAccessToken(
-                    new OauthTokenRequest(clientId, clientSecret, code)
+                var token = await client.client.Oauth.CreateAccessToken(
+                    new OauthTokenRequest(client.clientId, client.clientSecret, code)
                     {
                         RedirectUri = new Uri("http://localhost:59637/home/authorize")
                     });
@@ -88,12 +153,12 @@ namespace notgitter.Controllers
             Session["CSRF:State"] = csrf;
 
             // 1. Redirect users to request GitHub access
-            var request = new OauthLoginRequest(clientId)
+            var request = new OauthLoginRequest(client.clientId)
             {
                 Scopes = { "user", "notifications" },
                 State = csrf
             };
-            var oauthLoginUrl = client.Oauth.GetGitHubLoginUrl(request);
+            var oauthLoginUrl = client.client.Oauth.GetGitHubLoginUrl(request);
             return oauthLoginUrl.ToString();
         }
 

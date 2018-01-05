@@ -7,30 +7,29 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace notgitter
+namespace notgitter.Models
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Repo
+    public partial class User
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Repo()
+        public User()
         {
-            this.collaborators = new HashSet<User>();
+            this.Repoes = new HashSet<Repo>();
+            this.Messages = new HashSet<Message>();
         }
     
-        public int Id { get; set; }
-        public int userId { get; set; }
-        public System.DateTime dateCreated { get; set; }
-        public string language { get; set; }
+        public int UId { get; set; }
         public string name { get; set; }
-        public string url { get; set; }
-        public bool @private { get; set; }
+        public string email { get; set; }
+        public Nullable<int> GithubId { get; set; }
+        public Nullable<int> online { get; set; }
     
-        public virtual User owner { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<User> collaborators { get; set; }
-        public virtual Chatroom Chatroom { get; set; }
+        public virtual ICollection<Repo> Repoes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Message> Messages { get; set; }
     }
 }
