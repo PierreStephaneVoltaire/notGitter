@@ -88,7 +88,8 @@ namespace notgitter.Controllers
             // Get all the Message that contain repoid
             for (int i = 0; i < repoid.Count(); i++)
             {
-                ICollection<Message> oneRepoMessages = db.Messages.Where(m => m.RepoId == repoid[i]).ToList();
+                long actualRepoId = repoid.ElementAt(i);
+                ICollection<Message> oneRepoMessages = db.Messages.Where(m => m.RepoId == actualRepoId).ToList();
                 foreach (Message m in oneRepoMessages)
                 {
                     messages.Add(m);
