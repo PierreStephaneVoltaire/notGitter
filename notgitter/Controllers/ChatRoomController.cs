@@ -5,24 +5,102 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using notgitter.Models;
-using System.Threading.Tasks;
+
 namespace notgitter.Controllers
 {
     public class ChatRoomController : Controller
-    {  GitAPI git=new GitAPI();
-       // GET: ChatRoom
+    {
+        NotGitterDBEntities db = new NotGitterDBEntities();
+
+        // GET: ChatRoom
         public ActionResult Index()
-        {    
-             return View();
-        }
-        [HttpGet]
-        public ActionResult Index(string repoName,int userID)
         {
-            return View();
+            List<Message> messages = new List<Message>();
+            messages = getMessage();
+
+            return View(messages);
         }
-       
+
+        [HttpGet]
+        public ActionResult MessageAdd(string inputMessage)
+        {
+
+            // Get CurrentTime
+            DateTime currentTime = DateTime.Now;
+
+            //Get current user
+            int userId = Convert.ToInt32(TempData["userId"]);
+            Models.User user = new Models.User();
+            user = db.Users.Where(oneUser => oneUser.UId == userId).First();
+
+            //Get Current Repo
+            Repo repo = new Repo();
+            repo = db.Repoes.Where(rp => rp.UId == userId).FirstOrDefault<Repo>();
+
+            //Create Message object for new message
+            Message newMessage = new Message();
+
+            //Add information of new Message
+            newMessage.Content = inputMessage;
+            newMessage.Uid = user.UId;
+            newMessage.timestamp = currentTime;
+            newMessage.RepoId = repo.RepoId;
+
+            //Add to Database
+            db.Messages.Add(newMessage);
+
+            //save changes
+            db.SaveChanges();
+
+            //Getting all message for listing
+            List<Message> messages = new List<Message>();
+            messages = getMessage();
+
+            //Return to chatroom view with list of messages
+            return View(messages);
+        }
+
+        public List<Message> getMessage()
+        {
+            string repoName = "";
+
+            //Get Repo Name from url parameter
+            if (Request.QueryString["repoName"] != null)
+            {
+                repoName = Request.QueryString["repoName"];
+            }
+            else
+            {   //if reponame is not exist send back to repositary view
+
+            }
+
+            Repo repo = new Repo();
+            ICollection<Repo> repoes = db.Repoes.Where(rp => rp.name == repoName).ToList();
+            List<long> repoid = new List<long>();
+            List<Message> messages = new List<Message>();
+
+            // Get All the Repo ID that have same Repo name
+            foreach (Repo rp in repoes)
+            {
+                repoid.Add(rp.RepoId);
+            }
+
+            // Get all the Message that contain repoid
+            for (int i = 0; i < repoid.Count(); i++)
+            {
+                long actualRepoId = repoid.ElementAt(i);
+                ICollection<Message> oneRepoMessages = db.Messages.Where(m => m.RepoId == actualRepoId).ToList();
+                foreach (Message m in oneRepoMessages)
+                {
+                    messages.Add(m);
+                }
+            }
+
+            //swap message according to timestamp
+            var message = from m in messages orderby m.timestamp select m;
 
 
-
+            return message.ToList();
+        }
     }
 }

@@ -20,7 +20,7 @@ namespace notgitter.Models
             this.Messages = new HashSet<Message>();
         }
     
-        public long RepoId { get; set; }
+        public int RepoId { get; set; }
         public Nullable<System.DateTime> dateCreated { get; set; }
         public string language { get; set; }
         public string name { get; set; }
