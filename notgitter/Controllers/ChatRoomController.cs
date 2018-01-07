@@ -10,7 +10,6 @@ namespace notgitter.Controllers
 {
     public class ChatRoomController : Controller
     {
-        GitAPI git=new GitAPI();
         NotGitterDBEntities db = new NotGitterDBEntities();
 
         // GET: ChatRoom
@@ -21,26 +20,28 @@ namespace notgitter.Controllers
 
             return View(messages);
         }
-        
+
         [HttpGet]
-        public ActionResult MessageAdd(string inputMessage) {
-            
+        public ActionResult MessageAdd(string inputMessage)
+        {
+
             // Get CurrentTime
             DateTime currentTime = DateTime.Now;
 
             //Get current user
             int userId = Convert.ToInt32(TempData["userId"]);
             Models.User user = new Models.User();
-            user = db.Users.Where(oneUser => oneUser.UId ==  userId).First();
+            user = db.Users.Where(oneUser => oneUser.UId == userId).First();
 
             //Get Current Repo
             Repo repo = new Repo();
             repo = db.Repoes.Where(rp => rp.UId == userId).FirstOrDefault<Repo>();
 
+            //Create Message object for new message
             Message newMessage = new Message();
 
+            //Add information of new Message
             newMessage.Content = inputMessage;
-            newMessage.UserName = user.name;
             newMessage.Uid = user.UId;
             newMessage.timestamp = currentTime;
             newMessage.RepoId = repo.RepoId;
@@ -55,7 +56,8 @@ namespace notgitter.Controllers
             List<Message> messages = new List<Message>();
             messages = getMessage();
 
-            return View(messages);    
+            //Return to chatroom view with list of messages
+            return View(messages);
         }
 
         public List<Message> getMessage()
@@ -69,7 +71,7 @@ namespace notgitter.Controllers
             }
             else
             {   //if reponame is not exist send back to repositary view
-                
+
             }
 
             Repo repo = new Repo();
@@ -92,9 +94,12 @@ namespace notgitter.Controllers
                     messages.Add(m);
                 }
             }
-            //Need to swap message according to timestamp
 
-            return messages;
+            //swap message according to timestamp
+            var message = from m in messages orderby m.timestamp select m;
+
+
+            return message.ToList();
         }
     }
-} 
+}
