@@ -23,33 +23,23 @@ namespace notgitter.Controllers
         }
         
         [HttpGet]
-        public ActionResult MessageAdd(string message) {
-
-            var repoName = "";
-            //Get Repo Name
-            if (Request.QueryString["repoName"] != null)
-            {
-                repoName = Request.QueryString["repoName"];
-            }
-            else
-            {
-                return Redirect("Index");
-            }
-
+        public ActionResult MessageAdd(string inputMessage) {
+            
             // Get CurrentTime
             DateTime currentTime = DateTime.Now;
 
             //Get current user
+            int userId = Convert.ToInt32(TempData["userId"]);
             Models.User user = new Models.User();
-            user = db.Users.Where(a => a.GithubId == git.client.User.Current().Result.Id).FirstOrDefault();
+            user = db.Users.Where(oneUser => oneUser.UId ==  userId).First();
 
             //Get Current Repo
             Repo repo = new Repo();
-            repo = db.Repoes.Where(rp => rp.name == repoName).FirstOrDefault<Repo>();
+            repo = db.Repoes.Where(rp => rp.UId == userId).FirstOrDefault<Repo>();
 
             Message newMessage = new Message();
 
-           // newMessage.Content = this.newMessageInput.Text; //text content
+            newMessage.Content = inputMessage;
             newMessage.UserName = user.name;
             newMessage.Uid = user.UId;
             newMessage.timestamp = currentTime;
@@ -65,12 +55,12 @@ namespace notgitter.Controllers
             List<Message> messages = new List<Message>();
             messages = getMessage();
 
-            return View(message);    
+            return View(messages);    
         }
 
         public List<Message> getMessage()
         {
-            var repoName = "";
+            string repoName = "";
 
             //Get Repo Name from url parameter
             if (Request.QueryString["repoName"] != null)
