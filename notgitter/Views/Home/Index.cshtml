@@ -19,39 +19,46 @@
             @Html.DisplayNameFor(model => model.name)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Stars)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.url)
         </th>
-       
-        <th>
-            owner
-        </th>
-        <th></th>
+
+
+        <th> links</th>
     </tr>
-  
-@foreach (var item in Model)
-{
+
+    @foreach (var item in Model)
+    {
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.dateCreated)
         </td>
- 
+
         <td>
 
-           <a href=@("https://github.com/topics" + "/" + item.language)> @Html.DisplayFor(modelItem => item.language)</a>
+            <a href=@("https://github.com/topics" + "/" + item.language)> @Html.DisplayFor(modelItem => item.language)</a>
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.name)
         </td>
         <td>
-            <a  href=@{@item.url}>@Html.DisplayFor(modelItem => item.url)</a>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Stars)
+        </td>
+        <td>
+            <a href=@{@item.url}>@Html.DisplayFor(modelItem => item.url)</a>
         </td>
 
-        <td>
-            @Html.DisplayFor(modelItem => item.User.name)
-        </td>
+
         <td>
             <a class="btn btn-primary" href=@Url.Action("Index", "ChatRoom", new { @repoName = item.name, @userid=ViewBag.id })>go to the chatroom</a>
-          
 
         </td>
     </tr>
