@@ -72,7 +72,8 @@
           <Property Name="Id" Type="Int64" Nullable="false" />
           <Property Name="Content" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="timestamp" Type="DateTime" Precision="3" />
-          <Property Name="RepoId" Type="Int64" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RepoId" Type="Int32" Nullable="false" />
           <Property Name="Uid" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Repo" Relationship="NotGitterDBModel.MessageRepo" FromRole="Message" ToRole="Repo" />
           <NavigationProperty Name="User" Relationship="NotGitterDBModel.MessageUser" FromRole="Message" ToRole="User" />
@@ -81,15 +82,13 @@
           <Key>
             <PropertyRef Name="RepoId" />
           </Key>
-          <Property Name="RepoId" Type="Int64" Nullable="false" />
+          <Property Name="RepoId" Type="Int32" Nullable="false" />
           <Property Name="dateCreated" Type="DateTime" Precision="3" />
           <Property Name="language" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="url" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="C_private_" Type="Int32" />
           <Property Name="UId" Type="Int32" />
-          <Property Name="Stars" Type="Int32" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="User" Relationship="Self.FK_owns" FromRole="Repoes" ToRole="Users" />
           <NavigationProperty Name="Messages" Relationship="NotGitterDBModel.MessageRepo" FromRole="Repo" ToRole="Message" />
           <Property Name="Stars" Type="Int32" />
@@ -172,6 +171,7 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Content" ColumnName="Content" />
                 <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="RepoId" ColumnName="RepoId" />
                 <ScalarProperty Name="Uid" ColumnName="Uid" />
               </MappingFragment>
@@ -189,8 +189,6 @@
                 <ScalarProperty Name="url" ColumnName="url" />
                 <ScalarProperty Name="C_private_" ColumnName="C_private_" />
                 <ScalarProperty Name="UId" ColumnName="UId" />
-                <ScalarProperty Name="Stars" ColumnName="Stars" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
