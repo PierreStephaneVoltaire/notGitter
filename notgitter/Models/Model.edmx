@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="NotGitterDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="NotGitterDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Message">
           <Key>
             <PropertyRef Name="Id" />
@@ -27,6 +27,8 @@
           <Property Name="url" Type="varchar(max)" />
           <Property Name="C_private_" Type="int" />
           <Property Name="UId" Type="int" />
+          <Property Name="Stars" Type="int" />
+          <Property Name="Description" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -59,8 +61,7 @@
             <End Role="Repoes" EntitySet="Repoes" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="NotGitterDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -90,6 +91,8 @@
           <Property Name="UId" Type="Int32" />
           <NavigationProperty Name="User" Relationship="Self.FK_owns" FromRole="Repoes" ToRole="Users" />
           <NavigationProperty Name="Messages" Relationship="NotGitterDBModel.MessageRepo" FromRole="Repo" ToRole="Message" />
+          <Property Name="Stars" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -177,6 +180,8 @@
           <EntitySetMapping Name="Repoes">
             <EntityTypeMapping TypeName="NotGitterDBModel.Repo">
               <MappingFragment StoreEntitySet="Repoes">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Stars" ColumnName="Stars" />
                 <ScalarProperty Name="RepoId" ColumnName="RepoId" />
                 <ScalarProperty Name="dateCreated" ColumnName="dateCreated" />
                 <ScalarProperty Name="language" ColumnName="language" />
