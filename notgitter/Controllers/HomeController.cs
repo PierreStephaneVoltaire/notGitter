@@ -131,8 +131,7 @@ namespace notgitter.Controllers
                 // TODO: the view for this page should NOT show the  chat
                 // index(list of repos)->(repos' chat panel)->(repo's details)
                 ViewBag.name = currentUser.name;
-                ViewBag.id = currentUser.UId;
-
+                TempData["userId"]= currentUser.UId;
 
                 return View(dbContextRef.Repoes.Where(e=>e.UId==currentUserId).ToList());
             }
