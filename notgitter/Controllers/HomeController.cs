@@ -47,66 +47,80 @@ namespace notgitter.Controllers
                
                 var userDetails = await client.client.User.Current();
                
-                 Models.User user = new Models.User();
+                 Models.User currentUser = new Models.User();
 
 
-                NotGitterDBEntities db = new NotGitterDBEntities();
-                user.email= client.client.User.Email.GetAll().Result.ToArray()[0].Email;
-                user.name = userDetails.Login;
-                user.online = 1;
-                var id=0;
-                user.GithubId = client.client.User.Current().Result.Id;
+                NotGitterDBEntities dbContextRef = new NotGitterDBEntities();
+                var emailList = await client.client.User.Email.GetAll();
+                currentUser.email= emailList.ToArray()[0].Email;
+                currentUser.name = userDetails.Login;
+                currentUser.online = 1;
+                var currentUserId=0;
+                var tempGithubId = await client.client.User.Current();
+                currentUser.GithubId = tempGithubId.Id;
+
                 //write your id here
-              
-                Models.User checkuser = db.Users.Where(d => d.GithubId == user.GithubId).FirstOrDefault();
+
+                Models.User checkuser = dbContextRef.Users.Where(d => d.GithubId == currentUser.GithubId).FirstOrDefault();
                 
                 if (checkuser == null)
                 {
-                    db.Users.Add(user);
-                    id = user.UId;
+                    dbContextRef.Users.Add(currentUser);
+                    currentUserId = currentUser.UId;
                 }
                 else {
-                    db.Entry(checkuser).State = EntityState.Modified;
-                    id = checkuser.UId; 
+                    dbContextRef.Entry(checkuser).State = EntityState.Modified;
+
+                    currentUserId = checkuser.UId; 
                 }
                 IReadOnlyList<Repository> repos = await client.client.Repository.GetAllForCurrent();
 
                  foreach (Repository e in repos)
                 {
-                    Models.Repo oldone = await db.Repoes.Where(rp => rp.url == e.Url).FirstOrDefaultAsync<Models.Repo>();
+                    Models.Repo oldone = await dbContextRef.Repoes.Where(rp => rp.url == e.HtmlUrl).FirstOrDefaultAsync<Models.Repo>();
                     Models.Repo newone1 = new Models.Repo();
-                    if(oldone != null)   
-                    {   newone1 = oldone;
-                    }
-
-                    newone1.UId = id;
-                    newone1.url = e.Url;
-                    newone1.dateCreated = e.CreatedAt.DateTime;
-                    newone1.language = e.Language;
-                    newone1.C_private_ = e.Private ? 1 : 0;
-                    newone1.RepoId = e.Id;
-                    newone1.name = e.Name;
-
-
-
-                    Models.Repo repo = db.Repoes.Find(e.Id);
-                    IReadOnlyList<Issue> gitRepoIssues = (client.client.Issue.GetAllForRepository(e.Id)).Result.ToList();
-                    if (repo != null)
+               
+                    if (oldone != null)
                     {
 
-                        db.Entry(newone1).State = EntityState.Modified; }
+                        oldone.UId = currentUserId;
+                        oldone.url = e.HtmlUrl;
+                        oldone.dateCreated = e.CreatedAt.DateTime;
+                        oldone.language = e.Language;
+                        oldone.C_private_ = e.Private ? 1 : 0;
+                        oldone.RepoId = e.Id;
+                        oldone.name = e.Name;
+                        oldone.Stars = e.StargazersCount;
+                        oldone.Description = e.Description;
+                        dbContextRef.Entry(oldone).State = EntityState.Modified;
 
+
+                    }
                     else
                     {
-                   
-                        db.Repoes.Add(newone1);
+                        newone1.UId = currentUserId;
+                        newone1.url = e.HtmlUrl;
+                        newone1.dateCreated = e.CreatedAt.DateTime;
+                        newone1.language = e.Language;
+                        newone1.C_private_ = e.Private ? 1 : 0;
+                        newone1.RepoId = e.Id;
+                        newone1.name = e.Name;
+                        newone1.Description = e.Description;
+                        newone1.Stars = e.StargazersCount;
+                        dbContextRef.Repoes.Add(newone1);
+                      
                     }
-                
+                    try
+                    {
 
+                        dbContextRef.SaveChanges();
+                    }
+                    catch (Exception ex)
+                    {
+                        continue;
+                    }
                 }
 
-
-                db.SaveChanges();
 
                 //d.Result.ToArray()[0].Email;
                 //then add the repos if they don't exist
@@ -116,9 +130,11 @@ namespace notgitter.Controllers
                 // TODO: make a viewModel for this mess
                 // TODO: the view for this page should NOT show the  chat
                 // index(list of repos)->(repos' chat panel)->(repo's details)
-                // ViewBag.user = user;
-                
-                return View(db.Repoes.Where(e=>e.UId==id).ToList());
+                ViewBag.name = currentUser.name;
+                ViewBag.id = currentUser.UId;
+
+
+                return View(dbContextRef.Repoes.Where(e=>e.UId==currentUserId).ToList());
             }
             catch (AuthorizationException)
             {
