@@ -88,7 +88,7 @@ namespace notgitter.Controllers
                         oldone.dateCreated = e.CreatedAt.DateTime;
                         oldone.language = e.Language;
                         oldone.C_private_ = e.Private ? 1 : 0;
-                        oldone.RepoId = e.Id;
+                        oldone.RepoId = Convert.ToInt32(e.Id);
                         oldone.name = e.Name;
                         oldone.Stars = e.StargazersCount;
                         oldone.Description = e.Description;
@@ -103,7 +103,7 @@ namespace notgitter.Controllers
                         newone1.dateCreated = e.CreatedAt.DateTime;
                         newone1.language = e.Language;
                         newone1.C_private_ = e.Private ? 1 : 0;
-                        newone1.RepoId = e.Id;
+                        newone1.RepoId = Convert.ToInt32(e.Id);
                         newone1.name = e.Name;
                         newone1.Description = e.Description;
                         newone1.Stars = e.StargazersCount;
