@@ -11,9 +11,7 @@ using System.Data.Entity;
 
 namespace notgitter.Controllers
 {   
-
-
-    public class HomeController : Controller
+    public partial class HomeController : Controller
     {
         // TODO: Replace the following values with the values from your application registration. Register an
         // application at https://github.com/settings/applications/new to get these values.
@@ -131,7 +129,8 @@ namespace notgitter.Controllers
                 // TODO: the view for this page should NOT show the  chat
                 // index(list of repos)->(repos' chat panel)->(repo's details)
                 ViewBag.name = currentUser.name;
-                TempData["userId"]= currentUser.UId;
+                Session["userId"]= currentUserId;
+                Session["userName"] = currentUser.name;
 
                 return View(dbContextRef.Repoes.Where(e=>e.UId==currentUserId).ToList());
             }

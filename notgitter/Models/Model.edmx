@@ -9,10 +9,9 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="bigint" Nullable="false" />
-          <Property Name="Content" Type="varchar" MaxLength="50" />
-          <Property Name="timestamp" Type="datetime" />
-          <Property Name="UserName" Type="varchar" MaxLength="50" />
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Content" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="timestamp" Type="datetime" Nullable="false" />
           <Property Name="RepoId" Type="bigint" Nullable="false" />
           <Property Name="Uid" Type="int" Nullable="false" />
         </EntityType>
@@ -70,9 +69,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" />
-          <Property Name="Content" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="timestamp" Type="DateTime" Precision="3" />
-          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Content" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="timestamp" Type="DateTime" Precision="3" Nullable="false" />
           <Property Name="RepoId" Type="Int32" Nullable="false" />
           <Property Name="Uid" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Repo" Relationship="NotGitterDBModel.MessageRepo" FromRole="Message" ToRole="Repo" />
@@ -171,7 +169,6 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Content" ColumnName="Content" />
                 <ScalarProperty Name="timestamp" ColumnName="timestamp" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="RepoId" ColumnName="RepoId" />
                 <ScalarProperty Name="Uid" ColumnName="Uid" />
               </MappingFragment>

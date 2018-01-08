@@ -4,17 +4,18 @@
     ViewBag.Title = "Chatroom";
 }
 
-<h2>@Request.QueryString["repoName"] Chatroom</h2>
+<h2>/@Html.ActionLink(Session["userName"].ToString(), "Index", "Home")/@Request.QueryString["repoName"] chat</h2>
 <div class="panel panel-default">
     <div class="panel-body">
         <!--Display Messages-->
-        @if (Model.Count() == 0) {
-            <div>
-                <p>Start chatting now.</p>
-            </div>
-        } else {
-            @foreach (var message in Model) {
-                <div class="container">
+        <div class="container">
+            @if (Model.Count() == 0) {
+                <div class="row">
+                    <h4>Nobodies talking =(</h4>
+                    <h4>Start chatting now...</h4>
+                </div>
+            } else {
+                foreach (var message in Model) {
                     <div class="row">
                         <div class="col-sm-2">
                             @Html.DisplayFor(modelItem => message.timestamp)
@@ -23,9 +24,9 @@
                             <span style="font-weight:bold;">@Html.DisplayFor(modelItem => message.User.name)</span> <span>  @Html.DisplayFor(modelItem => message.Content)</span>
                         </div>
                     </div>
-                </div>
+                }
             }
-        }
+        </div>
 
         <!--Send Message Form-->
         <div class="panel-body">

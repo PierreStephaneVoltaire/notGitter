@@ -251,9 +251,11 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Chatroom\Index.cshtml" />
+    <Content Include="Views\Home\Chatroom.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\Chatroom\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
   </ItemGroup>

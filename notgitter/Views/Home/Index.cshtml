@@ -1,16 +1,16 @@
 ﻿@model IEnumerable<notgitter.Models.Repo>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Repository";
 }
 
-<h2>List @ViewBag.name 's Of Available Repos</h2>
+<h2>@ViewBag.name's Repository</h2>
 
 
 <table class="table table-bordered table-striped">
     <tr>
         <th>
-            created on
+            Created on
         </th>
         <th>
             @Html.DisplayNameFor(model => model.language)
@@ -58,7 +58,7 @@
 
 
         <td>
-            <a class="btn btn-primary" href=@Url.Action("Index", "Chatroom", new { @repoName = item.name })>go to the chatroom</a>
+            <a class="btn btn-primary" href=@Url.Action("Chatroom", "Home", new { @repoName = item.name })>Go to chatroom</a>
 
         </td>
     </tr>

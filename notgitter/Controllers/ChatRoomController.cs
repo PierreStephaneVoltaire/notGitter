@@ -6,15 +6,12 @@ using System.Web;
 using System.Web.Mvc;
 using notgitter.Models;
 
-namespace notgitter.Controllers
-{
-    public class ChatRoomController : Controller {
-        NotGitterDBEntities db = new NotGitterDBEntities();
+namespace notgitter.Controllers {
+    public partial class HomeController : Controller {
 
         // GET: ChatRoom
         [HttpGet]
-        public ActionResult Index() {
-        
+        public ActionResult Chatroom() {
 
             List<Message> messages = new List<Message>();
             messages = getMessage();
@@ -25,30 +22,37 @@ namespace notgitter.Controllers
 
         //Adds message into Message database
         [HttpPost]
-        public ActionResult Index(string inputMessage) {
+        public ActionResult Chatroom(string inputMessage) {
+            NotGitterDBEntities db = new NotGitterDBEntities();
+            List<Message> messages = new List<Message>();
+            string repoName = "";
+
+            //inputMessage is empty
+            if (inputMessage.Equals("")) {
+                messages = getMessage();
+                return View(messages);
+            }
 
             // Get CurrentTime
             DateTime currentTime = DateTime.Now;
 
             //Get Repo Name from url parameter
-            if (Request.QueryString["repoName"] != null)
-            {
+            if (Request.QueryString["repoName"] != null) {
                 repoName = Request.QueryString["repoName"];
             }
 
             //Get current user
-            int userId = Convert.ToInt32(TempData["userId"]);
+            int userId = Convert.ToInt32(Session["userId"]);
 
             //Get All Repo made by userId
-            ICollection<Repository> allRepo = db.Repoes.Where(rp => rp.UId == userId).ToList();
+            ICollection<Repo> allRepo = db.Repoes.Where(rp => rp.UId == userId).ToList();
             Repo repo = new Repo();
 
             // Loop through All repo made by userid, find repo name that are corresponding repo chatroom name 
-            foreach (Repo rp in allRepo)
-            {
-                if(rp.name == repoName)
-                {
+            foreach (Repo rp in allRepo) {
+                if (rp.name.Equals(repoName)) {
                     repo = rp;
+                    continue;
                 }
             }
 
@@ -68,7 +72,6 @@ namespace notgitter.Controllers
             db.SaveChanges();
 
             //Getting all message for listing
-            List<Message> messages = new List<Message>();
             messages = getMessage();
 
             //Return to chatroom view with list of messages
@@ -77,6 +80,7 @@ namespace notgitter.Controllers
 
         //Helper function to return list of messages to display
         public List<Message> getMessage() {
+            NotGitterDBEntities db = new NotGitterDBEntities();
             string repoName = "";
 
             //Get Repo Name from url parameter

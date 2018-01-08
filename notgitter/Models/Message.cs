@@ -16,8 +16,7 @@ namespace notgitter.Models
     {
         public long Id { get; set; }
         public string Content { get; set; }
-        public Nullable<System.DateTime> timestamp { get; set; }
-        public string UserName { get; set; }
+        public System.DateTime timestamp { get; set; }
         public int RepoId { get; set; }
         public int Uid { get; set; }
     
