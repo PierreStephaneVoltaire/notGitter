@@ -252,6 +252,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Chatroom\Index.cshtml" />
+    <Content Include="Views\Chatroom\View.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

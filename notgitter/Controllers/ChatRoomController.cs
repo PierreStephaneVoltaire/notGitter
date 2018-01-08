@@ -8,22 +8,24 @@ using notgitter.Models;
 
 namespace notgitter.Controllers
 {
-    public class ChatRoomController : Controller
-    {
+    public class ChatRoomController : Controller {
         NotGitterDBEntities db = new NotGitterDBEntities();
 
         // GET: ChatRoom
-        public ActionResult Index()
-        {
+        [HttpGet]
+        public ActionResult Index() {
+        
+
             List<Message> messages = new List<Message>();
             messages = getMessage();
+
 
             return View(messages);
         }
 
-        [HttpGet]
-        public ActionResult MessageAdd(string inputMessage)
-        {
+        //Adds message into Message database
+        [HttpPost]
+        public ActionResult Index(string inputMessage) {
 
             // Get CurrentTime
             DateTime currentTime = DateTime.Now;
@@ -60,17 +62,14 @@ namespace notgitter.Controllers
             return View(messages);
         }
 
-        public List<Message> getMessage()
-        {
+        //Helper function to return list of messages to display
+        public List<Message> getMessage() {
             string repoName = "";
 
             //Get Repo Name from url parameter
-            if (Request.QueryString["repoName"] != null)
-            {
+            if (Request.QueryString["repoName"] != null) {
                 repoName = Request.QueryString["repoName"];
-            }
-            else
-            {   //if reponame is not exist send back to repositary view
+            } else {   //if reponame is not exist send back to repositary view
 
             }
 
@@ -80,18 +79,15 @@ namespace notgitter.Controllers
             List<Message> messages = new List<Message>();
 
             // Get All the Repo ID that have same Repo name
-            foreach (Repo rp in repoes)
-            {
+            foreach (Repo rp in repoes) {
                 repoid.Add(rp.RepoId);
             }
 
             // Get all the Message that contain repoid
-            for (int i = 0; i < repoid.Count(); i++)
-            {
+            for (int i = 0; i < repoid.Count(); i++) {
                 long actualRepoId = repoid.ElementAt(i);
                 ICollection<Message> oneRepoMessages = db.Messages.Where(m => m.RepoId == actualRepoId).ToList();
-                foreach (Message m in oneRepoMessages)
-                {
+                foreach (Message m in oneRepoMessages) {
                     messages.Add(m);
                 }
             }
