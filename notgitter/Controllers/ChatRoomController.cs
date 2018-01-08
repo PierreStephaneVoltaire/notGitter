@@ -30,21 +30,34 @@ namespace notgitter.Controllers
             // Get CurrentTime
             DateTime currentTime = DateTime.Now;
 
+            //Get Repo Name from url parameter
+            if (Request.QueryString["repoName"] != null)
+            {
+                repoName = Request.QueryString["repoName"];
+            }
+
             //Get current user
             int userId = Convert.ToInt32(TempData["userId"]);
-            Models.User user = new Models.User();
-            user = db.Users.Where(oneUser => oneUser.UId == userId).First();
 
-            //Get Current Repo
+            //Get All Repo made by userId
+            ICollection<Repository> allRepo = db.Repoes.Where(rp => rp.UId == userId).ToList();
             Repo repo = new Repo();
-            repo = db.Repoes.Where(rp => rp.UId == userId).FirstOrDefault<Repo>();
+
+            // Loop through All repo made by userid, find repo name that are corresponding repo chatroom name 
+            foreach (Repo rp in allRepo)
+            {
+                if(rp.name == repoName)
+                {
+                    repo = rp;
+                }
+            }
 
             //Create Message object for new message
             Message newMessage = new Message();
 
             //Add information of new Message
             newMessage.Content = inputMessage;
-            newMessage.Uid = user.UId;
+            newMessage.Uid = userId;
             newMessage.timestamp = currentTime;
             newMessage.RepoId = repo.RepoId;
 
@@ -69,8 +82,6 @@ namespace notgitter.Controllers
             //Get Repo Name from url parameter
             if (Request.QueryString["repoName"] != null) {
                 repoName = Request.QueryString["repoName"];
-            } else {   //if reponame is not exist send back to repositary view
-
             }
 
             Repo repo = new Repo();

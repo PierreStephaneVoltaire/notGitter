@@ -4,22 +4,29 @@
     ViewBag.Title = "Chatroom";
 }
 
-<h2>@ViewBag.Title</h2>
+<h2>@Request.QueryString["repoName"] Chatroom</h2>
 <div class="panel panel-default">
     <div class="panel-body">
         <!--Display Messages-->
-        @foreach (var message in Model) {
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-2">
-                        @Html.DisplayFor(modelItem => message.timestamp)
-                    </div>
-                    <div class="col-sm-10">
-                        <span style="font-weight:bold;">@Html.DisplayFor(modelItem => message.User.name)</span> <span>  @Html.DisplayFor(modelItem => message.Content)</span>
+        @if (Model.Count() == 0) {
+            <div>
+                <p>Start chatting now.</p>
+            </div>
+        } else {
+            @foreach (var message in Model) {
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            @Html.DisplayFor(modelItem => message.timestamp)
+                        </div>
+                        <div class="col-sm-10">
+                            <span style="font-weight:bold;">@Html.DisplayFor(modelItem => message.User.name)</span> <span>  @Html.DisplayFor(modelItem => message.Content)</span>
+                        </div>
                     </div>
                 </div>
-            </div>
+            }
         }
+
         <!--Send Message Form-->
         <div class="panel-body">
             @using (Html.BeginForm()) {
@@ -27,10 +34,10 @@
                 <div class="form-horizontal">
                     <div class="form-group">
                         <div class="col-md-10">
-                            <input type="text" placeholder="Message" id="inputMessage" name="inputMessage">
+                            <input type="text" placeholder="Message" class="form-control" id="inputMessage" name="inputMessage">
                         </div>
                         <div class="col-md-2">
-                            <input type="submit" value="Create" class="btn btn-default" />
+                            <button type="submit" value="Send Message" class="btn btn-default">Send Message</button>
                         </div>
                     </div>
                 </div>
